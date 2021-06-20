@@ -1,20 +1,18 @@
 package main
 
 import (
-	"net/http"
+	"hello-service/router"
+	"log"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	router := gin.Default()
-	router.GET("/api/hello", helloHandler)
-	router.Run(":5050")
+	server := gin.Default()
+	router.AttachRouter(server)
+	err := server.Run(":5050")
+	if err != nil {
+		log.Fatalf("Run error: %v", err)
+	}
 
-}
-
-func helloHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "hello",
-	})
 }
